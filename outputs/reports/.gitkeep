@@ -1,0 +1,3 @@
+# This file ensures the outputs/reports/ directory is tracked by Git
+# while keeping generated report files out of version control
+# (see .gitignore for the exclusion rules).

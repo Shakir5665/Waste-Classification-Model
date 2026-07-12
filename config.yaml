@@ -1,0 +1,66 @@
+# ============================================================
+#  Waste Sorting System — Central Configuration
+#  All tuneable parameters live here. No hardcoded values
+#  exist inside the source modules.
+# ============================================================
+
+data:
+  dataset_dir: "dataset"          # Root folder containing train/val/test
+  train_dir: "train"
+  val_dir: "val"
+  test_dir: "test"
+  img_size: [128, 128]            # (height, width) fed to the network
+  batch_size: 32
+  class_names: ["organic", "recyclable"]   # Must match folder names exactly (case-sensitive)
+  seed: 42                                 # Random seed for reproducible shuffling
+
+augmentation:
+  rescale: 0.00392156862          # 1/255
+  rotation_range: 20
+  zoom_range: 0.2
+  shear_range: 0.2
+  horizontal_flip: true
+
+training:
+  epochs: 20
+  optimizer: "adam"
+  loss: "binary_crossentropy"
+  metrics: ["accuracy"]
+
+callbacks:
+  early_stopping:
+    monitor: "val_loss"
+    patience: 3
+    restore_best_weights: true
+
+  checkpoint:
+    monitor: "val_loss"           # Metric to watch for the best-model checkpoint
+    save_best_only_filename: "best_model.keras"     # Saved only when val_loss improves
+    save_every_epoch_subdir: "checkpoints"          # Subdir under outputs/models/
+    save_every_epoch_filename: "epoch_{epoch:02d}_valloss_{val_loss:.4f}.keras"
+
+model:
+  filters: [32, 64, 128]         # Conv2D filter counts per block
+  dense_units: 128
+  dropout_rate: 0.5
+  output_activation: "sigmoid"
+
+outputs:
+  dir: "outputs"
+  models_dir: "outputs/models"
+  reports_dir: "outputs/reports"
+  checkpoints_dir: "outputs/models/checkpoints"
+  model_filename: "waste_classifier.keras"
+  best_model_filename: "best_model.keras"
+  curves_filename: "training_curves.png"
+  confusion_matrix_filename: "confusion_matrix.png"
+  confusion_matrix_norm_filename: "confusion_matrix_normalised.png"
+  classification_report_filename: "classification_report.txt"
+  roc_curve_filename: "roc_curve.png"
+  pr_curve_filename: "precision_recall_curve.png"
+  metrics_bar_filename: "per_class_metrics.png"
+  training_summary_filename: "training_summary.json"
+
+inference:
+  threshold: 0.5                  # Probability >= threshold → Recyclable
+  realworld_data_dir: "Realworld_data"
