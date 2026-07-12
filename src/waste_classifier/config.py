@@ -40,8 +40,8 @@ def _build_cfg(raw: dict) -> SimpleNamespace:
     m = raw["model"]
     out = raw["outputs"]
     inf = raw["inference"]
-
     ck = raw["callbacks"]["checkpoint"]
+    gd = raw["gdrive"]
 
     cfg = SimpleNamespace(
         # ── data ────────────────────────────────────────────────────────
@@ -102,6 +102,11 @@ def _build_cfg(raw: dict) -> SimpleNamespace:
         # ── inference ───────────────────────────────────────────────────
         threshold        = float(inf["threshold"]),
         realworld_dir    = _REPO_ROOT / inf["realworld_data_dir"],
+
+        # ── google drive sync ────────────────────────────────────────────
+        drive_sync              = bool(gd["drive_sync"]),
+        gdrive_checkpoints_dir  = Path(gd["gdrive_checkpoints_dir"]),
+        gdrive_best_model_dir   = Path(gd["gdrive_best_model_dir"]),
     )
     return cfg
 

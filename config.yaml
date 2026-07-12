@@ -39,6 +39,21 @@ callbacks:
     save_every_epoch_subdir: "checkpoints" # Subdir under outputs/models/
     save_every_epoch_filename: "epoch_{epoch:02d}_valloss_{val_loss:.4f}.keras"
 
+# ── Google Drive sync ────────────────────────────────────────────────────────
+# Set drive_sync: true to copy checkpoints and the best model to Google Drive
+# after every epoch.  Set to false to disable (e.g. when running locally).
+#
+# gdrive_checkpoints_dir : where per-epoch .keras files are copied
+#                          (one file per epoch, never deleted)
+# gdrive_best_model_dir  : where best_model.keras is copied
+#                          (single file — overwritten each time a new best is found)
+#
+# Typical Colab path: "/content/drive/MyDrive/WasteClassifier/checkpoints"
+gdrive:
+  drive_sync: true
+  gdrive_checkpoints_dir: "/content/drive/MyDrive/WasteClassifier/checkpoints"
+  gdrive_best_model_dir:  "/content/drive/MyDrive/WasteClassifier/best_model"
+
 model:
   filters: [32, 64, 128] # Conv2D filter counts per block
   dense_units: 128

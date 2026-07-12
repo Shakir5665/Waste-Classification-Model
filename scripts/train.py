@@ -5,34 +5,33 @@ Entry point for the full training pipeline.
 
 Usage
 -----
-    # From the repository root:
+    # Fresh training (from epoch 0):
     python scripts/train.py
+
+    # Resume from the latest Drive checkpoint:
+    python scripts/train.py --resume
 
 Colab usage
 -----------
-    !python scripts/train.py
+    !python scripts/train.py           # fresh
+    !python scripts/train.py --resume  # resume after a disconnect
 
 What it does
 ------------
   1.  Loads all configuration from config.yaml
   2.  Builds data generators and directory flows
-  3.  Builds and compiles the CNN (with Dropout(0.5))
-  4.  Trains with three callbacks:
+  3.  Builds / loads model (resume restores weights from Drive)
+  4.  Trains with five callbacks:
         - EarlyStopping (patience=3, monitors val_loss)
         - ModelCheckpoint — best_model.keras (saved when val_loss improves)
         - ModelCheckpoint — epoch_NN_valloss_X.keras (saved every epoch)
+        - DriveSync       — copies checkpoints to Google Drive after each epoch
+        - EpochLogger     — prints rich per-epoch report
   5.  Saves final model → outputs/models/waste_classifier.keras
-  6.  Runs the full evaluation suite:
-        - Training curves (accuracy + loss)
-        - Confusion matrix (counts)
-        - Confusion matrix (normalised %)
-        - ROC curve (AUC)
-        - Precision-Recall curve (Average Precision)
-        - Per-class metrics bar chart
-        - Classification report (.txt)
-        - Training summary (.json)
+  6.  Runs the full evaluation suite
 """
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -47,6 +46,14 @@ from waste_classifier.evaluate import run_full_evaluation
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Waste Classification Training Pipeline")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from the latest epoch checkpoint stored on Google Drive.",
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print("  WASTE CLASSIFICATION MODEL — TRAINING PIPELINE")
     print("=" * 60)
@@ -55,6 +62,7 @@ def main() -> None:
     print(f"  Batch size : {CFG.batch_size}")
     print(f"  Max epochs : {CFG.epochs}")
     print(f"  Output dir : {CFG.outputs_dir}")
+    print(f"  Resume     : {'YES — scanning Drive for latest checkpoint' if args.resume else 'NO — starting fresh'}")
     print("=" * 60)
 
     # ── 1. Data ─────────────────────────────────────────────────────────
@@ -62,13 +70,17 @@ def main() -> None:
     train_data, val_data, test_data = get_data_flows()
 
     # ── 2. Model ─────────────────────────────────────────────────────────
-    print("\n[2/4] Building model...")
-    model = build_model()
+    if args.resume:
+        print("\n[2/4] Restoring model from Drive checkpoint...")
+        model, initial_epoch = training_module.resume_from_checkpoint()
+    else:
+        print("\n[2/4] Building model...")
+        model = build_model()
+        initial_epoch = 0
 
     # ── 3. Train ─────────────────────────────────────────────────────────
     print("\n[3/4] Training...")
-    print("      Callbacks: EarlyStopping + ModelCheckpoint (best) + ModelCheckpoint (every epoch)")
-    history = training_module.train(model, train_data, val_data)
+    history = training_module.train(model, train_data, val_data, initial_epoch=initial_epoch)
     training_module.save_model(model)
 
     # ── 4. Evaluate ───────────────────────────────────────────────────────
