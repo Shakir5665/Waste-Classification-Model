@@ -1,21 +1,21 @@
 # ============================================================
-#  Waste Sorting System — Central Configuration
+#  Waste Classification Model — Central Configuration
 #  All tuneable parameters live here. No hardcoded values
 #  exist inside the source modules.
 # ============================================================
 
 data:
-  dataset_dir: "dataset"          # Root folder containing train/val/test
+  dataset_dir: "dataset" # Root folder containing train/val/test
   train_dir: "train"
   val_dir: "val"
   test_dir: "test"
-  img_size: [128, 128]            # (height, width) fed to the network
+  img_size: [128, 128] # (height, width) fed to the network
   batch_size: 32
-  class_names: ["organic", "recyclable"]   # Must match folder names exactly (case-sensitive)
-  seed: 42                                 # Random seed for reproducible shuffling
+  class_names: ["organic", "recyclable"] # Must match folder names exactly (case-sensitive)
+  seed: 42 # Random seed for reproducible shuffling
 
 augmentation:
-  rescale: 0.00392156862          # 1/255
+  rescale: 0.00392156862 # 1/255
   rotation_range: 20
   zoom_range: 0.2
   shear_range: 0.2
@@ -34,13 +34,13 @@ callbacks:
     restore_best_weights: true
 
   checkpoint:
-    monitor: "val_loss"           # Metric to watch for the best-model checkpoint
-    save_best_only_filename: "best_model.keras"     # Saved only when val_loss improves
-    save_every_epoch_subdir: "checkpoints"          # Subdir under outputs/models/
+    monitor: "val_loss" # Metric to watch for the best-model checkpoint
+    save_best_only_filename: "best_model.keras" # Saved only when val_loss improves
+    save_every_epoch_subdir: "checkpoints" # Subdir under outputs/models/
     save_every_epoch_filename: "epoch_{epoch:02d}_valloss_{val_loss:.4f}.keras"
 
 model:
-  filters: [32, 64, 128]         # Conv2D filter counts per block
+  filters: [32, 64, 128] # Conv2D filter counts per block
   dense_units: 128
   dropout_rate: 0.5
   output_activation: "sigmoid"
@@ -62,5 +62,5 @@ outputs:
   training_summary_filename: "training_summary.json"
 
 inference:
-  threshold: 0.5                  # Probability >= threshold → Recyclable
+  threshold: 0.5 # Probability >= threshold → Recyclable
   realworld_data_dir: "Realworld_data"

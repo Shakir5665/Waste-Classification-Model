@@ -51,7 +51,7 @@ def main() -> None:
     model_path = Path(args.model)
 
     print("=" * 60)
-    print("  WASTE SORTING SYSTEM — EVALUATION PIPELINE")
+    print("  WASTE CLASSIFICATION MODEL — EVALUATION PIPELINE")
     print("=" * 60)
     print(f"  Model      : {model_path}")
     print(f"  Test set   : {CFG.test_dir}")

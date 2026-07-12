@@ -48,7 +48,7 @@ from waste_classifier.evaluate import run_full_evaluation
 
 def main() -> None:
     print("=" * 60)
-    print("  WASTE SORTING SYSTEM — TRAINING PIPELINE")
+    print("  WASTE CLASSIFICATION MODEL — TRAINING PIPELINE")
     print("=" * 60)
     print(f"  Dataset    : {CFG.dataset_dir}")
     print(f"  Image size : {CFG.img_size}")

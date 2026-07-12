@@ -575,4 +575,5 @@ this project needs, without affecting the system Python installation.
 
 ---
 
-*Part of the Waste Sorting System — ICT 3212 Intelligent Systems, Team TECH DREAMERS.*
+*Part of the Waste Classification Model — ICT 3212 Intelligent Systems, Team TECH DREAMERS.*
+

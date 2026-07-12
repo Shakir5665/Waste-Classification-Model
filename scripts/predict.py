@@ -60,7 +60,7 @@ def main() -> None:
     model_path = Path(args.model)
 
     print("=" * 60)
-    print("  WASTE SORTING SYSTEM — INFERENCE PIPELINE")
+    print("  WASTE CLASSIFICATION MODEL — INFERENCE PIPELINE")
     print("=" * 60)
     print(f"  Input dir  : {input_dir}")
     print(f"  Model      : {model_path}")

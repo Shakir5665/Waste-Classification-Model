@@ -7,7 +7,7 @@ This project follows a **modular Python package** architecture that cleanly sepa
 ## Folder Structure
 
 ```
-Waste_Sorting_System/
+Waste-Classification-Model/
 │
 ├── src/
 │   └── waste_classifier/          # Core Python package
@@ -41,14 +41,14 @@ Waste_Sorting_System/
 
 ## Module Responsibilities
 
-| Module | Responsibility |
-|---|---|
-| `config.py` | Loads `config.yaml` and exposes a `CFG` singleton used by all modules |
-| `data.py` | Creates `ImageDataGenerator` instances and `flow_from_directory` flows |
-| `model.py` | Defines and compiles the CNN architecture (`build_model()`) |
-| `train.py` | Runs `model.fit()` with callbacks; saves the trained model |
-| `evaluate.py` | Computes metrics, plots curves and confusion matrix, saves reports |
-| `predict.py` | Loads images from a directory, runs inference, visualises and summarises |
+| Module        | Responsibility                                                           |
+| ------------- | ------------------------------------------------------------------------ |
+| `config.py`   | Loads `config.yaml` and exposes a `CFG` singleton used by all modules    |
+| `data.py`     | Creates `ImageDataGenerator` instances and `flow_from_directory` flows   |
+| `model.py`    | Defines and compiles the CNN architecture (`build_model()`)              |
+| `train.py`    | Runs `model.fit()` with callbacks; saves the trained model               |
+| `evaluate.py` | Computes metrics, plots curves and confusion matrix, saves reports       |
+| `predict.py`  | Loads images from a directory, runs inference, visualises and summarises |
 
 ## Data Flow
 
@@ -72,7 +72,7 @@ CNN architecture (model.py)  →  train.py (model.fit())
 
 ## Design Principles
 
-- **Single source of truth:** Every configurable value lives in `config.yaml`.  No hardcoded constants exist in source modules.
+- **Single source of truth:** Every configurable value lives in `config.yaml`. No hardcoded constants exist in source modules.
 - **Separation of concerns:** Each module has one clear job.
-- **Reproducibility:** Config is versioned alongside code.  Running `scripts/train.py` on the same data always produces the same result.
+- **Reproducibility:** Config is versioned alongside code. Running `scripts/train.py` on the same data always produces the same result.
 - **Non-interactive:** All scripts run headlessly — no Colab upload widgets in source code.

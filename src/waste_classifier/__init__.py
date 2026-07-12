@@ -1,6 +1,6 @@
 """
-Waste Sorting System
-====================
+Waste Classification Model
+==========================
 Binary image classification: Organic vs. Recyclable waste.
 
 Package layout

@@ -1,4 +1,4 @@
-# Waste Sorting System — Complete Step-by-Step Guide
+# Waste Classification Model — Complete Step-by-Step Guide
 
 > This guide takes you from zero to a fully trained and tested model using Google Colab.  
 > Follow every section in order on your first run.
@@ -27,13 +27,13 @@
 
 ## 1. Before You Begin — What You Need
 
-| Requirement | Details |
-|---|---|
-| **Google Account** | Required to use Google Colab |
-| **GitHub Account** | Required to host the repository |
-| **Dataset ZIP** | `dataset_Implementation-2.zip` — contains Train / Validation / Test folders |
-| **Real-world images** | Any `.jpg`, `.jpeg`, or `.png` waste images you want to classify |
-| **Browser** | Chrome or Firefox recommended for Colab |
+| Requirement           | Details                                                                     |
+| --------------------- | --------------------------------------------------------------------------- |
+| **Google Account**    | Required to use Google Colab                                                |
+| **GitHub Account**    | Required to host the repository                                             |
+| **Dataset ZIP**       | `dataset_Implementation-2.zip` — contains Train / Validation / Test folders |
+| **Real-world images** | Any `.jpg`, `.jpeg`, or `.png` waste images you want to classify            |
+| **Browser**           | Chrome or Firefox recommended for Colab                                     |
 
 > **No local Python or GPU installation required.**  
 > Everything runs inside Google Colab on a free cloud GPU.
@@ -49,7 +49,7 @@ Before using Colab you must have the repository on GitHub.
 Skip to [Section 3](#3-opening-google-colab). Your repository URL should look like:
 
 ```
-https://github.com/Shakir5665/Mini-project---Waste-Sorting-System
+https://github.com/Shakir5665/Waste Classification Model.git
 ```
 
 ### If you need to push it to GitHub for the first time
@@ -61,7 +61,7 @@ git init
 git add .
 git commit -m "Initial commit — modular project structure"
 git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+git remote add origin https://github.com/Shakir5665/Waste Classification Model.git
 git push -u origin main
 ```
 
@@ -107,8 +107,8 @@ Run the **first code cell** in `colab_runner.ipynb`.
 ```python
 import os
 
-REPO_URL  = "https://github.com/Shakir5665/Mini-project---Waste-Sorting-System.git"
-REPO_NAME = "Mini-project---Waste-Sorting-System"
+REPO_URL  = "https://github.com/Shakir5665/Waste Classification Model.git"
+REPO_NAME = "Waste Classification Model"
 REPO_DIR  = f"/content/{REPO_NAME}"
 
 if os.path.exists(REPO_DIR):
@@ -124,9 +124,9 @@ else:
 **Expected output:**
 
 ```
-Cloning into 'Mini-project---Waste-Sorting-System'...
+Cloning into 'Waste Classification Model'...
 remote: Enumerating objects: ...
-✅ Working directory: /content/Mini-project---Waste-Sorting-System
+✅ Working directory: /content/Waste Classification Model
 ```
 
 > If you run this cell a second time in the same session, it automatically runs `git pull` instead of cloning again.
@@ -144,15 +144,15 @@ print("✅ Dependencies installed.")
 
 This installs:
 
-| Package | Version | Purpose |
-|---|---|---|
-| `tensorflow` | ≥ 2.12 | Model training and inference |
-| `numpy` | ≥ 1.23 | Array operations |
-| `matplotlib` | ≥ 3.7 | Training curves and visualisations |
-| `seaborn` | ≥ 0.12 | Confusion matrix heatmap |
-| `scikit-learn` | ≥ 1.2 | Classification report and metrics |
-| `pyyaml` | ≥ 6.0 | Reading `config.yaml` |
-| `Pillow` | ≥ 9.4 | Image loading and preprocessing |
+| Package        | Version | Purpose                            |
+| -------------- | ------- | ---------------------------------- |
+| `tensorflow`   | ≥ 2.12  | Model training and inference       |
+| `numpy`        | ≥ 1.23  | Array operations                   |
+| `matplotlib`   | ≥ 3.7   | Training curves and visualisations |
+| `seaborn`      | ≥ 0.12  | Confusion matrix heatmap           |
+| `scikit-learn` | ≥ 1.2   | Classification report and metrics  |
+| `pyyaml`       | ≥ 6.0   | Reading `config.yaml`              |
+| `Pillow`       | ≥ 9.4   | Image loading and preprocessing    |
 
 **Expected output:**
 
@@ -181,7 +181,7 @@ Please upload your dataset ZIP file
 
 ```
 Extracting dataset.zip...
-✅ Dataset placed at: /content/Mini-project---Waste-Sorting-System/dataset
+✅ Dataset placed at: /content/Waste Classification Model/dataset
 ```
 
 **Required dataset folder structure** (case-sensitive):
@@ -271,6 +271,7 @@ Epoch 2/20
 ```
 
 Each row shows:
+
 - **accuracy** — how well the model performs on the training images this epoch
 - **loss** — training loss (lower is better)
 - **val_accuracy** — how well it performs on the validation set (the important one)
@@ -313,12 +314,12 @@ This means training stopped early because `val_loss` did not improve for 3 conse
 
 **What these numbers mean:**
 
-| Metric | Definition | Our result |
-|---|---|---|
-| **Precision** | Of all images predicted as X, how many truly are X | Recyclable: 98% |
-| **Recall** | Of all true X images, how many did we correctly find | Recyclable: 97% |
-| **F1-score** | Harmonic mean of precision and recall | Recyclable: 97% |
-| **Accuracy** | Overall correct predictions | **95.30%** |
+| Metric        | Definition                                           | Our result      |
+| ------------- | ---------------------------------------------------- | --------------- |
+| **Precision** | Of all images predicted as X, how many truly are X   | Recyclable: 98% |
+| **Recall**    | Of all true X images, how many did we correctly find | Recyclable: 97% |
+| **F1-score**  | Harmonic mean of precision and recall                | Recyclable: 97% |
+| **Accuracy**  | Overall correct predictions                          | **95.30%**      |
 
 ---
 
@@ -338,8 +339,8 @@ This runs inference on every image inside the `Realworld_data/` folder (24 image
 2. Resizes to 128×128 and normalises pixel values
 3. Passes through the trained model
 4. Applies the classification threshold (0.5):
-   - **Probability ≥ 0.5** → `RECYCLABLE` *(label shown in green)*
-   - **Probability < 0.5** → `ORGANIC` *(label shown in red)*
+   - **Probability ≥ 0.5** → `RECYCLABLE` _(label shown in green)_
+   - **Probability < 0.5** → `ORGANIC` _(label shown in red)_
 5. Displays a grid of all images with labels and confidence %
 6. Prints a summary table
 
@@ -398,12 +399,12 @@ files.download("outputs/reports/classification_report.txt")
 
 ### What each output file contains
 
-| File | Contents |
-|---|---|
-| `waste_classifier.keras` | The trained model weights — use this for future inference |
-| `training_curves.png` | Two plots side by side: accuracy curve and loss curve (train vs. validation, per epoch) |
-| `confusion_matrix.png` | Heatmap showing correct/incorrect predictions per class |
-| `classification_report.txt` | Full precision, recall, F1-score table saved as plain text |
+| File                        | Contents                                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| `waste_classifier.keras`    | The trained model weights — use this for future inference                               |
+| `training_curves.png`       | Two plots side by side: accuracy curve and loss curve (train vs. validation, per epoch) |
+| `confusion_matrix.png`      | Heatmap showing correct/incorrect predictions per class                                 |
+| `classification_report.txt` | Full precision, recall, F1-score table saved as plain text                              |
 
 > **Keep `waste_classifier.keras` safe.** It is the result of your entire training run. If you lose it, you have to retrain the model.
 
@@ -424,6 +425,7 @@ Or with a specific model file:
 ```
 
 This skips training entirely and runs:
+
 - Test-set accuracy and loss
 - Confusion matrix
 - Classification report
@@ -441,7 +443,7 @@ All settings are stored in [`config.yaml`](../config.yaml) at the root of the re
 
 ```yaml
 training:
-  epochs: 30      # was 20
+  epochs: 30 # was 20
 ```
 
 **Increase patience (allow more epochs before early stopping):**
@@ -449,21 +451,21 @@ training:
 ```yaml
 callbacks:
   early_stopping:
-    patience: 5   # was 3
+    patience: 5 # was 3
 ```
 
 **Use a larger batch size (if your GPU has enough memory):**
 
 ```yaml
 data:
-  batch_size: 64  # was 32
+  batch_size: 64 # was 32
 ```
 
 **Change the classification threshold:**
 
 ```yaml
 inference:
-  threshold: 0.6  # was 0.5 — now more conservative about "Recyclable"
+  threshold: 0.6 # was 0.5 — now more conservative about "Recyclable"
 ```
 
 > After editing `config.yaml` locally, push the change to GitHub and re-run **Step 1** (git pull) in Colab before training again.
@@ -491,11 +493,12 @@ You ran `scripts/evaluate.py` or `scripts/predict.py` before completing training
 
 The `Realworld_data/` folder is empty or the path is wrong.  
 → Confirm images exist: in a Colab cell run `!ls Realworld_data/`  
-→ Or pass a full path: `!python scripts/predict.py --input /content/Mini-project---Waste-Sorting-System/Realworld_data/`
+→ Or pass a full path: `!python scripts/predict.py --input /content/Waste Classification Model/Realworld_data/`
 
 ### Colab session disconnected mid-training
 
 Colab sessions disconnect after ~90 minutes of inactivity. If this happens:
+
 1. Re-run all cells from Step 1 (git pull will restore the code)
 2. Re-upload the dataset (Step 3)
 3. Re-run training (Step 4)
@@ -514,8 +517,8 @@ Colab sessions disconnect after ~90 minutes of inactivity. If this happens:
 
 ```bash
 # 1. Clone repo (run once per session)
-git clone https://github.com/Shakir5665/Mini-project---Waste-Sorting-System.git
-cd Mini-project---Waste-Sorting-System
+git clone https://github.com/Shakir5665/Waste Classification Model.git
+cd Waste Classification Model
 
 # 2. Install dependencies
 pip install -r requirements.txt
@@ -545,14 +548,15 @@ python scripts/predict.py --input Realworld_data/ --model outputs/models/waste_c
 
 ### Output locations
 
-| Output | Path |
-|---|---|
-| Trained model | `outputs/models/waste_classifier.keras` |
-| Training curves (accuracy + loss) | `outputs/reports/training_curves.png` |
-| Confusion matrix | `outputs/reports/confusion_matrix.png` |
-| Classification report | `outputs/reports/classification_report.txt` |
-| Inference grid | `outputs/reports/inference_results.png` |
+| Output                            | Path                                        |
+| --------------------------------- | ------------------------------------------- |
+| Trained model                     | `outputs/models/waste_classifier.keras`     |
+| Training curves (accuracy + loss) | `outputs/reports/training_curves.png`       |
+| Confusion matrix                  | `outputs/reports/confusion_matrix.png`      |
+| Classification report             | `outputs/reports/classification_report.txt` |
+| Inference grid                    | `outputs/reports/inference_results.png`     |
 
 ---
 
-*Part of the Waste Sorting System — ICT 3212 Intelligent Systems, Team TECH DREAMERS.*
+_Part of the Waste Sorting System — ICT 3212 Intelligent Systems, Team TECH DREAMERS._
+
